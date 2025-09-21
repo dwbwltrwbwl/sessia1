@@ -47,7 +47,7 @@ namespace sessia1.Pages
                     {
                         case 1:
                             MessageBox.Show("Здравствуйте, Админ " + userObj.name + "!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
-                            NavigationService.Navigate(new Pages.DataOutput());
+                            NavigationService.Navigate(new Pages.DataOutput()); 
                             break;
                         case 2:
                             MessageBox.Show("Здравствуйте, Ученик " + userObj.name + "!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
