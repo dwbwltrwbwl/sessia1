@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="291de6eb1b9641ada49f21b46728c995" Name="Diagram1">
+        <EntityTypeShape EntityType="sessia1Model.agent_types" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="sessia1Model.agents" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="sessia1Model.prod_types" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="sessia1Model.products" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sessia1Model.roles" Width="1.5" PointX="5.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sessia1Model.sales" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sessia1Model.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sessia1Model.users" Width="1.5" PointX="8" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="sessia1Model.FK_agents_agent_types" ManuallyRouted="false" />
+        <AssociationConnector Association="sessia1Model.FK_sales_agents" ManuallyRouted="false" />
+        <AssociationConnector Association="sessia1Model.FK_products_prod_types" ManuallyRouted="false" />
+        <AssociationConnector Association="sessia1Model.FK_sales_products" ManuallyRouted="false" />
+        <AssociationConnector Association="sessia1Model.FK_users_roles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

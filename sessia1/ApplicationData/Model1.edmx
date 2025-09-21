@@ -1,0 +1,477 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище sessia1Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="agent_types">
+          <Key>
+            <PropertyRef Name="id_agent_type" />
+          </Key>
+          <Property Name="id_agent_type" Type="int" Nullable="false" />
+          <Property Name="agent_type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="agents">
+          <Key>
+            <PropertyRef Name="id_agent" />
+          </Key>
+          <Property Name="id_agent" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="255" />
+          <Property Name="id_agent_type" Type="int" />
+          <Property Name="address" Type="nvarchar" MaxLength="255" />
+          <Property Name="inn" Type="nvarchar" MaxLength="50" />
+          <Property Name="kpp" Type="nvarchar" MaxLength="50" />
+          <Property Name="director_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" />
+          <Property Name="logo" Type="nvarchar" MaxLength="50" />
+          <Property Name="priority" Type="int" />
+        </EntityType>
+        <EntityType Name="prod_types">
+          <Key>
+            <PropertyRef Name="id_prod_type" />
+          </Key>
+          <Property Name="id_prod_type" Type="int" Nullable="false" />
+          <Property Name="prod_type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="id_product" />
+          </Key>
+          <Property Name="id_product" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="255" />
+          <Property Name="id_prod_type" Type="int" />
+          <Property Name="article_number" Type="nvarchar" MaxLength="50" />
+          <Property Name="production_person_count" Type="int" />
+          <Property Name="production_workshop_number" Type="int" />
+          <Property Name="min_cost_for_agent" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id_role" />
+          </Key>
+          <Property Name="id_role" Type="int" Nullable="false" />
+          <Property Name="role_name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sales">
+          <Key>
+            <PropertyRef Name="id_sale" />
+          </Key>
+          <Property Name="id_sale" Type="int" Nullable="false" />
+          <Property Name="id_product" Type="int" />
+          <Property Name="id_agent" Type="int" />
+          <Property Name="date_realization" Type="date" />
+          <Property Name="quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="login" Type="nvarchar" MaxLength="50" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_role" Type="int" />
+        </EntityType>
+        <Association Name="FK_agents_agent_types">
+          <End Role="agent_types" Type="Self.agent_types" Multiplicity="0..1" />
+          <End Role="agents" Type="Self.agents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agent_types">
+              <PropertyRef Name="id_agent_type" />
+            </Principal>
+            <Dependent Role="agents">
+              <PropertyRef Name="id_agent_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_products_prod_types">
+          <End Role="prod_types" Type="Self.prod_types" Multiplicity="0..1" />
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="prod_types">
+              <PropertyRef Name="id_prod_type" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="id_prod_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sales_agents">
+          <End Role="agents" Type="Self.agents" Multiplicity="0..1" />
+          <End Role="sales" Type="Self.sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agents">
+              <PropertyRef Name="id_agent" />
+            </Principal>
+            <Dependent Role="sales">
+              <PropertyRef Name="id_agent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sales_products">
+          <End Role="products" Type="Self.products" Multiplicity="0..1" />
+          <End Role="sales" Type="Self.sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id_product" />
+            </Principal>
+            <Dependent Role="sales">
+              <PropertyRef Name="id_product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_roles">
+          <End Role="roles" Type="Self.roles" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id_role" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище sessia1ModelContainer">
+          <EntitySet Name="agent_types" EntityType="Self.agent_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="agents" EntityType="Self.agents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="prod_types" EntityType="Self.prod_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sales" EntityType="Self.sales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_agents_agent_types" Association="Self.FK_agents_agent_types">
+            <End Role="agent_types" EntitySet="agent_types" />
+            <End Role="agents" EntitySet="agents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_products_prod_types" Association="Self.FK_products_prod_types">
+            <End Role="prod_types" EntitySet="prod_types" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sales_agents" Association="Self.FK_sales_agents">
+            <End Role="agents" EntitySet="agents" />
+            <End Role="sales" EntitySet="sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sales_products" Association="Self.FK_sales_products">
+            <End Role="products" EntitySet="products" />
+            <End Role="sales" EntitySet="sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_roles" Association="Self.FK_users_roles">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="sessia1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="agent_types">
+          <Key>
+            <PropertyRef Name="id_agent_type" />
+          </Key>
+          <Property Name="id_agent_type" Type="Int32" Nullable="false" />
+          <Property Name="agent_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="agents" Relationship="Self.FK_agents_agent_types" FromRole="agent_types" ToRole="agents" />
+        </EntityType>
+        <EntityType Name="agents">
+          <Key>
+            <PropertyRef Name="id_agent" />
+          </Key>
+          <Property Name="id_agent" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="id_agent_type" Type="Int32" />
+          <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="inn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="kpp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="director_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="logo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="priority" Type="Int32" />
+          <NavigationProperty Name="agent_types" Relationship="Self.FK_agents_agent_types" FromRole="agents" ToRole="agent_types" />
+          <NavigationProperty Name="sales" Relationship="Self.FK_sales_agents" FromRole="agents" ToRole="sales" />
+        </EntityType>
+        <EntityType Name="prod_types">
+          <Key>
+            <PropertyRef Name="id_prod_type" />
+          </Key>
+          <Property Name="id_prod_type" Type="Int32" Nullable="false" />
+          <Property Name="prod_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="products" Relationship="Self.FK_products_prod_types" FromRole="prod_types" ToRole="products" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="id_product" />
+          </Key>
+          <Property Name="id_product" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="id_prod_type" Type="Int32" />
+          <Property Name="article_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="production_person_count" Type="Int32" />
+          <Property Name="production_workshop_number" Type="Int32" />
+          <Property Name="min_cost_for_agent" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="prod_types" Relationship="Self.FK_products_prod_types" FromRole="products" ToRole="prod_types" />
+          <NavigationProperty Name="sales" Relationship="Self.FK_sales_products" FromRole="products" ToRole="sales" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id_role" />
+          </Key>
+          <Property Name="id_role" Type="Int32" Nullable="false" />
+          <Property Name="role_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="users" Relationship="Self.FK_users_roles" FromRole="roles" ToRole="users" />
+        </EntityType>
+        <EntityType Name="sales">
+          <Key>
+            <PropertyRef Name="id_sale" />
+          </Key>
+          <Property Name="id_sale" Type="Int32" Nullable="false" />
+          <Property Name="id_product" Type="Int32" />
+          <Property Name="id_agent" Type="Int32" />
+          <Property Name="date_realization" Type="DateTime" Precision="0" />
+          <Property Name="quantity" Type="Int32" />
+          <NavigationProperty Name="agents" Relationship="Self.FK_sales_agents" FromRole="sales" ToRole="agents" />
+          <NavigationProperty Name="products" Relationship="Self.FK_sales_products" FromRole="sales" ToRole="products" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_role" Type="Int32" />
+          <NavigationProperty Name="roles" Relationship="Self.FK_users_roles" FromRole="users" ToRole="roles" />
+        </EntityType>
+        <Association Name="FK_agents_agent_types">
+          <End Role="agent_types" Type="Self.agent_types" Multiplicity="0..1" />
+          <End Role="agents" Type="Self.agents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agent_types">
+              <PropertyRef Name="id_agent_type" />
+            </Principal>
+            <Dependent Role="agents">
+              <PropertyRef Name="id_agent_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sales_agents">
+          <End Role="agents" Type="Self.agents" Multiplicity="0..1" />
+          <End Role="sales" Type="Self.sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agents">
+              <PropertyRef Name="id_agent" />
+            </Principal>
+            <Dependent Role="sales">
+              <PropertyRef Name="id_agent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_products_prod_types">
+          <End Role="prod_types" Type="Self.prod_types" Multiplicity="0..1" />
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="prod_types">
+              <PropertyRef Name="id_prod_type" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="id_prod_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sales_products">
+          <End Role="products" Type="Self.products" Multiplicity="0..1" />
+          <End Role="sales" Type="Self.sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id_product" />
+            </Principal>
+            <Dependent Role="sales">
+              <PropertyRef Name="id_product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_roles">
+          <End Role="roles" Type="Self.roles" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id_role" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="sessia1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="agent_types" EntityType="Self.agent_types" />
+          <EntitySet Name="agents" EntityType="Self.agents" />
+          <EntitySet Name="prod_types" EntityType="Self.prod_types" />
+          <EntitySet Name="products" EntityType="Self.products" />
+          <EntitySet Name="roles" EntityType="Self.roles" />
+          <EntitySet Name="sales" EntityType="Self.sales" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="users" EntityType="Self.users" />
+          <AssociationSet Name="FK_agents_agent_types" Association="Self.FK_agents_agent_types">
+            <End Role="agent_types" EntitySet="agent_types" />
+            <End Role="agents" EntitySet="agents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sales_agents" Association="Self.FK_sales_agents">
+            <End Role="agents" EntitySet="agents" />
+            <End Role="sales" EntitySet="sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_products_prod_types" Association="Self.FK_products_prod_types">
+            <End Role="prod_types" EntitySet="prod_types" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sales_products" Association="Self.FK_sales_products">
+            <End Role="products" EntitySet="products" />
+            <End Role="sales" EntitySet="sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_roles" Association="Self.FK_users_roles">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище sessia1ModelContainer" CdmEntityContainer="sessia1Entities">
+          <EntitySetMapping Name="agent_types">
+            <EntityTypeMapping TypeName="sessia1Model.agent_types">
+              <MappingFragment StoreEntitySet="agent_types">
+                <ScalarProperty Name="id_agent_type" ColumnName="id_agent_type" />
+                <ScalarProperty Name="agent_type" ColumnName="agent_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="agents">
+            <EntityTypeMapping TypeName="sessia1Model.agents">
+              <MappingFragment StoreEntitySet="agents">
+                <ScalarProperty Name="id_agent" ColumnName="id_agent" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="id_agent_type" ColumnName="id_agent_type" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="inn" ColumnName="inn" />
+                <ScalarProperty Name="kpp" ColumnName="kpp" />
+                <ScalarProperty Name="director_name" ColumnName="director_name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="logo" ColumnName="logo" />
+                <ScalarProperty Name="priority" ColumnName="priority" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="prod_types">
+            <EntityTypeMapping TypeName="sessia1Model.prod_types">
+              <MappingFragment StoreEntitySet="prod_types">
+                <ScalarProperty Name="id_prod_type" ColumnName="id_prod_type" />
+                <ScalarProperty Name="prod_type" ColumnName="prod_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="sessia1Model.products">
+              <MappingFragment StoreEntitySet="products">
+                <ScalarProperty Name="id_product" ColumnName="id_product" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="id_prod_type" ColumnName="id_prod_type" />
+                <ScalarProperty Name="article_number" ColumnName="article_number" />
+                <ScalarProperty Name="production_person_count" ColumnName="production_person_count" />
+                <ScalarProperty Name="production_workshop_number" ColumnName="production_workshop_number" />
+                <ScalarProperty Name="min_cost_for_agent" ColumnName="min_cost_for_agent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="sessia1Model.roles">
+              <MappingFragment StoreEntitySet="roles">
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+                <ScalarProperty Name="role_name" ColumnName="role_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sales">
+            <EntityTypeMapping TypeName="sessia1Model.sales">
+              <MappingFragment StoreEntitySet="sales">
+                <ScalarProperty Name="id_sale" ColumnName="id_sale" />
+                <ScalarProperty Name="id_product" ColumnName="id_product" />
+                <ScalarProperty Name="id_agent" ColumnName="id_agent" />
+                <ScalarProperty Name="date_realization" ColumnName="date_realization" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="sessia1Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="sessia1Model.users">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
