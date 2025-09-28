@@ -28,5 +28,57 @@ namespace sessia1.Pages
             allProducts = AppConnect.model01.products.ToList();
             listProducts.ItemsSource = allProducts;
         }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (listProducts.SelectedItem == null)
+            {
+                MessageBox.Show("Пожалуйста, выберите запись для удаления",
+                                "Внимание",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Warning);
+                return;
+            }
+            var confirmResult = MessageBox.Show("Вы уверены, что хотите удалить продукт и все связанные с ним продажи?",
+                                                "Подтверждение удаления",
+                                                MessageBoxButton.YesNo,
+                                                MessageBoxImage.Question);
+            if (confirmResult != MessageBoxResult.Yes)
+                return;
+            try
+            {
+                var selectedProduct = (products)listProducts.SelectedItem;
+                int productId = selectedProduct.id_product;
+                var productToDelete = AppConnect.model01.products
+                    .FirstOrDefault(p => p.id_product == productId);
+                if (productToDelete != null)
+                {
+                    var relatedSales = AppConnect.model01.sales
+                        .Where(s => s.id_product == productId)
+                        .ToList();
+                    if (relatedSales.Any())
+                    {
+                        AppConnect.model01.sales.RemoveRange(relatedSales);
+                    }
+                    AppConnect.model01.products.Remove(productToDelete);
+                    AppConnect.model01.SaveChanges();
+                    allProducts.Remove(selectedProduct);
+                    listProducts.ItemsSource = null;
+                    listProducts.ItemsSource = allProducts;
+                    MessageBox.Show("Продукт и все связанные продажи успешно удалены!",
+                                    "Успех",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении: {ex.Message}\n\n" +
+                               "Подробности: " + ex.InnerException?.Message,
+                                "Ошибка базы данных",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+            }
+        }
     }
 }
