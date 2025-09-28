@@ -40,8 +40,7 @@ namespace sessia1.Pages
                 return;
             }
             var confirmResult = MessageBox.Show("Вы уверены, что хотите удалить продукт и все связанные с ним продажи?",
-                                                "Подтверждение удаления",
-                                                MessageBoxButton.YesNo,
+                                                "Подтверждение удаления", MessageBoxButton.YesNo,
                                                 MessageBoxImage.Question);
             if (confirmResult != MessageBoxResult.Yes)
                 return;
